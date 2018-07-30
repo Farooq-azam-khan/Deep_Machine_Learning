@@ -151,6 +151,18 @@ class Matrix():
             result += "]\n"
         return result
     
+    def __str__(self):
+        result = ""
+        for i in range(0,self.rows):
+            result += "["
+            for j in range(0,self.cols):
+                if j == self.cols-1:
+                    result += "{:3.2f}".format(self.data[i][j])
+                else:
+                    result += "{:3.2f}, ".format(self.data[i][j])
+            result += "]\n"
+        return result
+    
     @staticmethod 
     def softmax(mat):
         result = Matrix(mat.rows, mat.cols)
