@@ -1,4 +1,3 @@
-import numpy as np
 from matrix import Matrix
 import math
 import random
@@ -34,7 +33,48 @@ class NeuralNetwork():
     ''' sets the learning rate '''
     def setLR(lr):
         self.lr = lr
-
+        
+    def confusion_matrix(self, xs, ys, labels, normalize=False):
+        ''' generate a confusion matrix ''' 
+        ''' cols are the predictions and the rows are the vals ''' 
+        cm = Matrix(len(labels), len(labels))
+        
+        for x, y in zip(xs, ys):
+            index_prediction, index_actual = self.get_index_val(x, y)
+            # print(f'{index_actual}, {index_prediction}')
+            cm.data[index_actual][index_prediction] += 1
+            
+        if normalize:
+            cm.multiply(1/len(xs))
+        return cm
+    
+    def get_index_val(self, x, y):
+        prediction = self.feed_forward(x)
+        index_prediction = prediction.index(max(prediction))
+        index_actual = y.index(max(y))
+        return index_prediction, index_actual
+        
+    def compare_index_val(self, x, y):
+        ''' compare indicies of individual points ''' 
+        index_prediction, index_actual = self.get_index_val(x, y)
+        if (index_prediction == index_actual):
+            return True
+        else:
+            return False
+            
+    ''' computes the accuracy '''
+    def get_accuracy(self, xs, ys):
+        ''' compare the values of the indicies of the arrays ''' 
+        score = 0        
+        for x, y in zip(xs, ys):
+            if self.compare_index_val(x, y):
+                score += 1            
+        return score / len(xs)
+    
+    ''' predict '''
+    def predict(self, input_array):
+        return self.feed_forward(input_array)
+        
     ''' predicts output '''
     def feed_forward(self, input_array):
         # get the values for the hidden nodes
@@ -49,7 +89,8 @@ class NeuralNetwork():
         output = Matrix.matMultiply(self.weights_ho, hidden) # multiply ho wegths with hidden nodes
         output.add(self.bias_o) # add bias
         output.map(sigmoid) # sigmoid activation
-
+        
+        # TODO: apply softmax layer
         # return output as array
         return output.toArray()
 
@@ -66,7 +107,8 @@ class NeuralNetwork():
         outputs = Matrix.matMultiply(self.weights_ho, hidden)
         outputs.add(self.bias_o)
         outputs.map(sigmoid)
-
+        
+        # TODO: apply softmax layer
 
         # calculate the error, ERROR = TARGETS - OUTPUTS
         output_errors = Matrix.subtract(targets, outputs)
@@ -105,34 +147,25 @@ class NeuralNetwork():
         self.bias_h.add(hidden_gradient)
 
 
-
-def main():
-    # XOR problem revisisted
-    nn = NeuralNetwork(2, 4, 1)
-    input = [1,0]
-    output = nn.feed_forward(input)
-
-    # data
-    val0 = [0,0]
-    val1 = [0,1]
-    val2 = [1,0]
-    val3 = [1,1]
-    inputs = [val0, val1, val2, val3]
-    targets = [[0], [1], [1], [0]]
-
-    for _ in range(10000):
-        indx = random.randrange(0,4)
-        input = inputs[indx]
-        target = targets[indx]
-        # print(input, target)
-        nn.train(input, target)
-
-    print("xor problem")
-    for i in range(len(inputs)):
-        input = inputs[i]
-        prediction = nn.feed_forward(input)
-        print("{} | {} -> {:.2f}".format(input[0], input[1], prediction[0]))
-
-    # TODO: save neural network
-if __name__ == "__main__":
-    main()
+def softmax(arr):
+    ret_arr = []
+    sum_e = 0
+    
+    # get the sum of the arr
+    for val in arr: 
+        sum_e += math.exp(val)
+    
+    # get the val for the index
+    for val in arr:
+        new_val = math.exp(val) / sum_e
+        ret_arr.append(new_val)
+    
+    return ret_arr
+# 
+# def main():
+#     soft_arr = softmax([1,2,3,4])
+#     print(soft_arr)
+#     print('sum:', sum(soft_arr))
+# 
+# if __name__ == '__main__':
+#     main()

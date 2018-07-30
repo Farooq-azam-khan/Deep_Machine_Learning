@@ -150,21 +150,13 @@ class Matrix():
                     result += "{:3.2f}, ".format(self.data[i][j])
             result += "]\n"
         return result
-
-
-
-
-def main():
-    m1 = Matrix(2,2)
-    m2 = Matrix(2,2)
-
-    print(m1)
-    m1.activationFunction("sigmoid")
-    print(m1)
-    # print(m1)
-    # print(m2)
-    # print(Matrix.matMultiply(m1, m2))
-
-
-if __name__ == "__main__":
-    main()
+    
+    @staticmethod 
+    def softmax(mat):
+        result = Matrix(mat.rows, mat.cols)
+        
+        # Total exponential sum
+        result = mat.map(lambda val: math.exp(val))
+        sum_e = sum(result.toArray())
+        result = result.map(lambda val: val/sum_e)
+        return result
