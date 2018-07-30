@@ -59,24 +59,23 @@ class NeuralNetwork():
         self.set_learning_rate(0.1)
         # set activation function 
         self.set_activation_function()
-        
-        # TODO: fix weight generation 
         # inputs -> (weight 0) hidden layer 0 -> (weight 1) hidden layer 1 -> ... -> (weight output) output
         self.num_weights_bias = len(self.layers) - 1
         self.weights = []
         self.bias = []
         
-    def set_weights(self, nodes):
-        # indx = len(self.layers) - 3
-        # previous_indx_nodes = self.layers[indx].nodes
-        # self.weights.append(Weight(nodes, previous_indx_nodes))
-        for indx in range(self.num_weights_bias):
-            layer_nodes = self.layers[indx].nodes
-            next_layer_nodes = self.layers[indx+1].nodes
-            self.weights.append(Weight(next_layer_nodes, layer_nodes))
+    def set_weights(self):
+        self.weights = []
+        for i in range(len(self.layers)-1):
+            current_layer = self.layers[i]
+            next_layer = self.layers[i+1]
+            self.weights.append(Weight(next_layer.nodes, current_layer.nodes))
             
     def set_bias(self, nodes):
-        self.bias.insert(len(self.layers)-2, Bias(nodes))
+        self.bias = []
+        for i in range(len(self.layers)):
+            current_layer = self.layers[i]
+            self.bias.append(Bias(current_layer.nodes))
         
     def set_learning_rate(self, lr):
         self.lr = lr
@@ -90,8 +89,10 @@ class NeuralNetwork():
         self.layers.insert(self.add_layer_indx, NNLayer(nodes))
         self.add_layer_indx += 1
         
+        previous_layer = self.layers[self.add_layer_indx - 1]
+                
         self.set_bias(nodes)
-        self.set_weights(nodes)
+        self.set_weights()
         
     def add_input_layer(self):
         # insert input layer at the beginning 
@@ -101,10 +102,22 @@ class NeuralNetwork():
         # insert output layer to the end
         self.layers.append(NNLayer(self.output_nodes, 'output_layer'))
         
+    def predict(self):
+        # TODO: predict algorithm 
+        # each iteration activation_function * (weight * layer + bias)
+        pass
+    def train(self):
+        # TODO: trian model 
+        pass
+        
     def __repr__(self):
         ret = f"input_nodes: {self.input_nodes}, output_nodes: {self.output_nodes}\n"
         ret += f"len(layers): {len(self.layers)}, len(weights): {len(self.weights)}, len(bias): {len(self.bias)}\n"
         ret += f"{self.layers}"
         ret += "weights: \n" 
         ret += f"{self.weights}"
+        ret += "bias: \n" 
+        ret += f"{self.bias}"
         return ret
+        
+        
