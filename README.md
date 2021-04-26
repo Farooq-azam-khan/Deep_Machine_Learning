@@ -1,5 +1,8 @@
 # Deep Learning and Machine Learning Library
 - to get an extensive overwiew of the tools used, reference: https://github.com/Farooq-azam-khan/sklearn-datascience.git
+- more complex data science libraries were not used in some scenarios for the following reasons:
+  - 1. Provide a first principles approach
+  - 2. provide a case for why such libraries are useful when dealing with abstractions
 
 ## 0. Setup
 Follow these instruction so that you can use this repository:
