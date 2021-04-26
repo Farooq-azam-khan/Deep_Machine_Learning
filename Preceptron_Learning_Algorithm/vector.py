@@ -1,29 +1,29 @@
 import random
-# TODO: implement unit testing
-'''
-    class: vector class
-'''
+from typing import List 
+import unittest
+
+Vec = List[float]
+
 class Vector():
 
-    def __init__(self, dim):
+    def __init__(self, dim: int):
         self.dim = dim # num of dimensions
-        self.data = []
-        self.initalize()
+        self.data: Vec = [0 for _ in range(dim)]
+        # self.initalize()
 
     def initalize(self):
         for _ in range(self.dim):
             self.data.append(0)
 
     def randomize(self):
-        for indx, _ in enumerate(self.data):
-            self.data[indx] = random.uniform(-1, 1)
+        self.data = [random.uniform(-1, 1) for _ in range(self.dim)]
+        # for indx, _ in enumerate(self.data):
+        #     self.data[indx] = random.uniform(-1, 1)
 
     @staticmethod
-    def scalar_mul(vec, num):
-        ret = Vector(0)
-        for val in vec.data:
-            ret.append(val * num)
-        ret.dim = len(vec.data)
+    def scalar_mul(vec, num: float):
+        ret = Vector(vec.dim)
+        ret.data = [num * val for val in vec.data]
         return ret
 
     def append(self, val):
@@ -81,6 +81,12 @@ class Vector():
         for indx, val in enumerate(self.data):
             self.data[indx] += num
 
+    @staticmethod
+    def scalar_add(v, num: float):
+        vec = Vector(v.dim)
+        vec.data = [val + num for val in v.data]
+        return vec 
+
     def __add__(self, other):
         if self.dim == other.dim:
             result = Vector(self.dim)
@@ -110,14 +116,28 @@ class Vector():
                 ret += "{:.2f}, ".format(val)
         return ret + "]"
 
-def main():
-    vec1 = Vector(3)
-    vec2 = Vector(3)
-    vec1.randomize()
-    vec2.randomize()
-    print(vec1)
-    print(vec2)
-    print(Vector.dot(vec1, vec2))
+
+class TestVector(unittest.TestCase):
+    def test_init(self):
+        v1 = Vector(10)
+
+        self.assertTrue(v1.dim == 10)
+        self.assertTrue(len(v1.data) == 10)
+    
+    def test_scalar(self):
+        v = Vector(2)
+        v.data[0] = 1
+        v.data[1] = 2
+        vs = Vector.scalar_mul(v, 2)
+        self.assertTrue(vs.data[0] == 2)
+        self.assertTrue(vs.data[1] == 4)
+
+        v = Vector(2)
+        vs = Vector.scalar_add(v, 2)
+        self.assertTrue(vs.data[0] == 2)
+        self.assertTrue(vs.data[1] == 2)
+        
+
 
 if __name__=="__main__":
-    main()
+    unittest.main()
