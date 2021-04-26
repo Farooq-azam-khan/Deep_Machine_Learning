@@ -1,6 +1,7 @@
 # Machine Learning
 - give computers ability to learn with data
 - types: __Supervised__, __Unsupervised Learning__, and __Reinforcement Learning__
+- This repository goes over some of the core algorithms needed for Machine Learning
 
 ## Supervised
 - Give algorithm the right answer so it can develop
