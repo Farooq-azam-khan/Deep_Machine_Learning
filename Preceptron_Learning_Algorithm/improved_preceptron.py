@@ -1,7 +1,7 @@
 import random # used to generate random weights
 import math
 from vector import Vector
-
+from preceptron import Preceptron
 # TODO: debug errors
 
 # activation function
@@ -21,7 +21,7 @@ def dsigmoid(y):
     class: Improved_Preceptron
     usage: same as preceptron class but here there are n outputs
  '''
-class Improved_Preceptron():
+class Improved_Preceptron(Preceptron):
     # constructor
     def __init__(self, num_inputs, num_outputs):
         self.num_weights = num_inputs
