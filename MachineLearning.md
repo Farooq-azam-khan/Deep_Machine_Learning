@@ -1,19 +1,23 @@
 # Machine Learning
 - give computers ability to learn with data
-- types: __Supervised__ and __Unsupervised Learning__
+- types: __Supervised__, __Unsupervised Learning__, and __Reinforcement Learning__
 
-# Supervised
+## Supervised
 - Give algorithm the right answer so it can develop
-- Example algorithms: __Regression, Naïve Based, SVM, Neural Nets__
+- Example algorithms: __Regression, Naïve Based, SVM, Neural Networks__
 - use a __dataset__
   - split it into __training__ and __testing__
   - __training set__ will train algorithm
   - __testing set__ will check performance
 
-# Unsupervised
-- Do not have a dataset with the right answers -> data w/out labels
-- algorithm must find a pattern if it exists, called __clusters__
+## Unsupervised
+- Do not have a dataset with the right answers -> data without labels
+- Algorithm must find a pattern if it exists, called __clusters__
 - Example algorithms: __K-means clustering, hierarchical clustering, PCA__
+
+## Reinforcement Learning
+- Given an environment, our task is to create an agent that maximizes the reward an agents gets by performing a set of actions. 
+- Examle algorithms: __Monte-Carlo Simulation__, __TD-SARSA__, __Q-learning__, __Deep Q-learning (DQN)__, __Double DQN (DDQN)__, __Dueling DDQN (DDDQN)__. 
 
 ## Cross Validation (CV)
 - Assess how the results of a statistical analysis will generalize to an independent dataset
