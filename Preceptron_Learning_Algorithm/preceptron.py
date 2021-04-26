@@ -1,5 +1,7 @@
 import random # used to generate random weights
+from typing import List
 
+Vector = List[float]
 # activation function
 def sign(num):
     if (num >= 0):
@@ -13,41 +15,42 @@ def sign(num):
  '''
 class Preceptron():
     # constructor
-    def __init__(self, num_weights):
+    def __init__(self, num_weights: int, learning_rate: float=0.1):
         # weights: the number of weights = number of inputs
         self.num_weights = num_weights
-        # preceptron keeps track of its own weights
-        self.weights = []
-        for weight_index in range(self.num_weights):
-            # initalize the weights to be random number between -1 and 1
-            self.weights.append(random.uniform(-1,1))
+        # preceptron keeps track of its own weights + bias
+        self.weights: Vector = [random.uniform(-1, 1) for _ in range(self.num_weights+1)] #[]
+        # self.num_weights = len(self.weights)
+        # for weight_index in range(self.num_weights):
+        #     # initalize the weights to be random number between -1 and 1
+        #     self.weights.append(random.uniform(-1,1))
 
         # add a random weight for the bias
-        self.weights.append(random.uniform(-1,1))
-        self.num_weights += 1 # this is becuase we added the bias
+        # self.weights.append(random.uniform(-1,1))
+        # self.num_weights += 1 # this is becuase we added the bias
 
         #learning rate
-        self.lr = 0.1
+        self.lr: float = learning_rate
 
     '''
         param: inputs array
         return: expected output
     '''
-    def feed_forward(self, inputs):
+    def feed_forward(self, inputs: Vector) -> float:
 
         # add the bias as part of the input
         bias = 1
         inputs.append(bias)
 
-        sum = 0
+        total: float = 0
         # loop through the weights
         for i, weight in enumerate(self.weights):
             # multiply the weights by the inputs at that index
             result = weight * inputs[i]
             # add it to total sum
-            sum = sum + result
+            total = total + result #sum = sum + result
         # pass the sum through the activation function
-        output = sign(sum)
+        output = sign(total)
         # return the output
         return output
 
@@ -91,8 +94,8 @@ class Preceptron():
             if acc == 1.0:
                 break
 
-    def actual_accuracy(self, inputs_test_array, targets_test_array):
-        average = 0
+    def actual_accuracy(self, inputs_test_array, targets_test_array) -> float:
+        average: float = 0
         # loop through the points
         for x, y in zip(inputs_test_array, targets_test_array):
             # get the inputs

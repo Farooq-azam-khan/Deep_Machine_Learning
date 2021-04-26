@@ -1,44 +1,47 @@
 import random
 from preceptron import Preceptron
 import matplotlib.pyplot as plt
-
+from typing import List
 # function for the fomula of the line we want preceptron to get
 def line(x):
-    # y = mx + b
-    return -0.3 * x + 2
+    params = {
+        'm': -0.3, 
+        'b': 2
+    }
+    return params['m'] * x + params['b']
 
 '''
     class: Point
     usage: Generates points which will be used to train preceptron
 '''
 class Point():
-    def __init__(self):
+    def __init__(self, lower_limit: int = -50, upper_limit: int = 50):
         # generates random x and y inputs
-        self.x = random.uniform(-50, 50)
-        self.y = random.uniform(-50, 50)
-
-        # the label is the known answer. We use this to train preceptron.
-        self.label = 0
+        self.x = random.uniform(lower_limit, upper_limit)
+        self.y = random.uniform(lower_limit, upper_limit)
 
         # actual y value for that particular line
         line_y = line(self.x)
-
+        # the label is the known answer. We use this to train preceptron.
         # latel is 1 if self.y is above the line
-        if(self.y > line_y):
-            self.label = 1
-        else:
-            self.label = -1
+        self.label: float = 1 if self.y > line_y else -1 
 
-    def get_points(self):
+
+        # if(self.y > line_y):
+        #     self.label = 1
+        # else:
+        #     self.label = -1
+
+    def get_points(self) -> List[float]:
         return [self.x, self.y]
 
     # like the toString method in java
     def __repr__(self):
-        return "[x: {:.2f}, y: {:.2f}, label: {}]".format(self.x, self.y, self.label)
+        return "[{:.2f}, {:.2f} -> label: {}]".format(self.x, self.y, self.label)
 
     @staticmethod
-    def split_points(points):
-        percent_to_split = 0.6 # 60% will be training and 40% will be testing
+    def split_points(points, percent_to_split: float=0.6):
+        # percent_to_split = 0.6 # 60% will be training and 40% will be testing
         splitting_index = int(len(points)*percent_to_split)
         test_points = points[:splitting_index] # first 60% are training
         train_points = points[splitting_index:] # last 40% are testing
@@ -73,7 +76,7 @@ def main():
 
         # dont train further if accuracy is perfect
         if accuracy == 1.0:
-            break;
+            break
 
     # graph the lines and points of the models
     graph_model(points, p_model)
