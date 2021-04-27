@@ -1,5 +1,5 @@
 # K- Nearest Neighbors Classifier
-- http://www.saedsayad.com/k_nearest_neighbors.htm
+
 - knn classifiers can classify unlabeled examples by assigning them the class of the most similar labeled examples
 - simple and powerful
 - knn is well suited for classification where relationship between features is complex/hard to understand
@@ -17,3 +17,7 @@
 - just store training data -> slow prediction
 - we don't build model
 - __non-parametric learning__: non parameters are to be learned about the data (unlike with linear regression)
+
+## Resources
+- https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm
+- http://www.saedsayad.com/k_nearest_neighbors.htm
