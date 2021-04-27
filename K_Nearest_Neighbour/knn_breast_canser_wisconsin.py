@@ -5,7 +5,9 @@ from sklearn import preprocessing, neighbors
 
 
 # FORMATTING DATA
-df = pd.read_csv('breast-cancer-wisconsin.data.txt')
+# https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+%28Diagnostic%29
+df = pd.read_csv('data/breast-cancer-wisconsin.csv')
+df.head()
 df.replace('?', -99999, inplace=True)
 df.drop(['id'], 1, inplace=True) # remove useless data (id)
     

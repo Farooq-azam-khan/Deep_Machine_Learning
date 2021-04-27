@@ -27,15 +27,20 @@ def k_nearest_neighbors(data, predict, k=3):
     
     return vote_result
 
-result = k_nearest_neighbors(dataset, new_features)
+def main():
+    result = k_nearest_neighbors(dataset, new_features)
 
-'''
-for i in dataset:
-    for ii in dataset[i]:
-        plt.scatter(ii[0],ii[1], s=100, color=i)
-'''
-[ [ plt.scatter(ii[0],ii[1], s=100, color=i) for ii in dataset[i]] for i in dataset]
-plt.scatter(new_features[0], new_features[1], color=result)
-plt.show()
+    '''
+    for i in dataset:
+        for ii in dataset[i]:
+            plt.scatter(ii[0],ii[1], s=100, color=i)
+    '''
+    [ [ plt.scatter(ii[0],ii[1], s=100, color=i) for ii in dataset[i]] for i in dataset]
+    plt.scatter(new_features[0], new_features[1], color=result)
+    plt.show()
 
-# TODO: Euclidean distance, manhattan distance, minkowski distance, hamming distance
+    # TODO: Euclidean distance, manhattan distance, minkowski distance, hamming distance
+
+
+if __name__ == '__main__':
+    main()
